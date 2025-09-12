@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MyTask>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div  class="container">
+
+    <div class="text-end">
+
+        <a asp-controller="TodoTask" asp-action="Create" class="btn btn-outline-primary">Add New</a>
+
+    </div>
+
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>IsCompleted</th>
+                <th>CreatedAt</th>
+                <th>DueDate</th>
+                <th>Priority</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+          
+            @foreach (var TodoTasks in Model)
+            {
+
+                <tr>
+                    <td>@TodoTasks.Id</td>
+                    <td>@TodoTasks.Title</td>
+                    <td>@TodoTasks.Description</td>
+                    <td>@(TodoTasks.IsCompleted ? "Yes" : "No")</td>
+                    <td>@TodoTasks.CreatedAt.ToString("g")</td>
+                    <td>@(TodoTasks.DueDate.HasValue? TodoTasks.DueDate.Value.ToString("g") : "N/A")</td>
+                    <td>@TodoTasks.Priority</td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-Id="@TodoTasks.Id" class="btn btn-outline-warning">Edit</a>
+                        <a asp-action="Delete" asp-route-Id="@TodoTasks.Id" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+
+            }
+               
+            
+        </tbody>
+    </table>
+</div>
