@@ -57,7 +57,7 @@ namespace To_DoList_AspMVC.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-
+                    createList();
                     return View(myTasks);
 
                 }
@@ -92,7 +92,7 @@ namespace To_DoList_AspMVC.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-
+                    createList();
                     return View(myTasks);
 
                 }
