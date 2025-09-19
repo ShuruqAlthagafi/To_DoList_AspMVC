@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace To_DoList_AspMVC.Models
 {
@@ -24,5 +25,8 @@ namespace To_DoList_AspMVC.Models
         [Range(1, 3)]
         public int Priority { get; set; }
 
+        [ForeignKey("Category")]
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
     }
 }

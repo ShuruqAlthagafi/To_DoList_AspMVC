@@ -11,6 +11,11 @@ namespace To_DoList_AspMVC.Data
 
         }
        public DbSet<MyTask> TodoTasks { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Client> Clients { get; set; }
+
+        public DbSet<Nationality> Nationalities { get; set; }
 
     }
 }

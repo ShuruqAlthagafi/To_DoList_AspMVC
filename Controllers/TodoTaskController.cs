@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using To_DoList_AspMVC.Data;
 using To_DoList_AspMVC.Models;
 
@@ -20,7 +22,7 @@ namespace To_DoList_AspMVC.Controllers
             try
             {
 
-                IEnumerable<MyTask> myTasks = _context.TodoTasks.ToList();
+                IEnumerable<MyTask> myTasks = _context.TodoTasks.Include(c => c.Category).ToList();
                 return View(myTasks);
 
 
@@ -33,11 +35,18 @@ namespace To_DoList_AspMVC.Controllers
             }
         }
 
+        private void createList()
+        {
+            IEnumerable<Category> dept = _context.Categories.ToList();
+            SelectList selectListItems = new SelectList(dept, "Id", "Name");
+            ViewBag.Departments = selectListItems;
+        }
 
 
         [HttpGet]
         public IActionResult Create()
         {
+            createList();
             return View();
         }
 
@@ -72,6 +81,7 @@ namespace To_DoList_AspMVC.Controllers
         public IActionResult Edit(int Id)
         {
             var myTasks = _context.TodoTasks.Find(Id);
+            createList();
             return View(myTasks);
         }
 
@@ -107,6 +117,7 @@ namespace To_DoList_AspMVC.Controllers
         public IActionResult Delete(int Id)
         {
             var myTasks = _context.TodoTasks.Find(Id);
+            createList();
             return View(myTasks);
         }
 
