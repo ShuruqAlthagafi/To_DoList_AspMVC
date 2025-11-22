@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using To_DoList_AspMVC.Data;
+using To_DoList_AspMVC.Filters;
 using To_DoList_AspMVC.Models;
 
 namespace To_DoList_AspMVC.Controllers
 {
+    [SessionAuthorize]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;

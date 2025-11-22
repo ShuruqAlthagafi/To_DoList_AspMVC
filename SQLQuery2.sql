@@ -1,0 +1,22 @@
+INSERT INTO Nationalities (Name_ar, Name_en, Country_code)
+VALUES 
+( N'«·”⁄ÊœÌ…', 'Saudi Arabia', 'SA'),
+( N'„’—', 'Egypt', 'EG'),
+( N'«·≈„«—« ', 'United Arab Emirates', 'AE'),
+( N'«·ﬂÊÌ ', 'Kuwait', 'KW'),
+( N'ﬁÿ—', 'Qatar', 'QA'),
+( N'«·»Õ—Ì‰', 'Bahrain', 'BH'),
+( N'⁄„«‰', 'Oman', 'OM'),
+( N'«·√—œ‰', 'Jordan', 'JO'),
+( N'›·”ÿÌ‰', 'Palestine', 'PS'),
+( N'·»‰«‰', 'Lebanon', 'LB'),
+( N'”Ê—Ì«', 'Syria', 'SY'),
+( N'«·⁄—«ﬁ', 'Iraq', 'IQ'),
+( N'«·Ì„‰', 'Yemen', 'YE'),
+( N'«·„€—»', 'Morocco', 'MA'),
+( N'«·Ã“«∆—', 'Algeria', 'DZ'),
+( N' Ê‰”', 'Tunisia', 'TN'),
+( N'·Ì»Ì«', 'Libya', 'LY'),
+( N'«·”Êœ«‰', 'Sudan', 'SD'),
+( N'ÃÌ»Ê Ì', 'Djibouti', 'DJ'),
+( N'„Ê—Ì «‰Ì«', 'Mauritania', 'MR');

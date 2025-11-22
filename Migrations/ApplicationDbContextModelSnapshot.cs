@@ -41,6 +41,38 @@ namespace To_DoList_AspMVC.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Tasks related to your job or career",
+                            Name = "Work"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Personal goals and errands",
+                            Name = "Personal"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Fitness, exercise, and wellness tasks",
+                            Name = "Health"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Assignments, courses, and study plans",
+                            Name = "Study"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Grocery or online shopping lists",
+                            Name = "Shopping"
+                        });
                 });
 
             modelBuilder.Entity("To_DoList_AspMVC.Models.Client", b =>
@@ -79,6 +111,48 @@ namespace To_DoList_AspMVC.Migrations
                     b.HasIndex("NationalityId");
 
                     b.ToTable("Clients");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "shuruq@example.com",
+                            Gender = "Female",
+                            Name = "Shuruq Althagafi",
+                            NationalityId = 1,
+                            Password = "123456",
+                            Phone = "0501234567"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "omar@example.com",
+                            Gender = "Male",
+                            Name = "Omar Hassan",
+                            NationalityId = 2,
+                            Password = "omarpass",
+                            Phone = "0109876543"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "laila@example.com",
+                            Gender = "Female",
+                            Name = "Laila Al-Kuwaiti",
+                            NationalityId = 4,
+                            Password = "laila2025",
+                            Phone = "96550011223"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Email = "ahmed@example.com",
+                            Gender = "Male",
+                            Name = "Ahmed Al Ameri",
+                            NationalityId = 5,
+                            Password = "ahmed@123",
+                            Phone = "97150111222"
+                        });
                 });
 
             modelBuilder.Entity("To_DoList_AspMVC.Models.MyTask", b =>
@@ -90,6 +164,9 @@ namespace To_DoList_AspMVC.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -106,7 +183,7 @@ namespace To_DoList_AspMVC.Migrations
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Priority")
+                    b.Property<int>("PriorityId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -117,6 +194,10 @@ namespace To_DoList_AspMVC.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("PriorityId");
 
                     b.ToTable("TodoTasks");
                 });
@@ -144,6 +225,98 @@ namespace To_DoList_AspMVC.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Nationalities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Country_code = "SA",
+                            Name_ar = "السعودية",
+                            Name_en = "Saudi Arabia"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Country_code = "EG",
+                            Name_ar = "مصر",
+                            Name_en = "Egypt"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Country_code = "JO",
+                            Name_ar = "الأردن",
+                            Name_en = "Jordan"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Country_code = "KW",
+                            Name_ar = "الكويت",
+                            Name_en = "Kuwait"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Country_code = "AE",
+                            Name_ar = "الإمارات",
+                            Name_en = "United Arab Emirates"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Country_code = "BH",
+                            Name_ar = "البحرين",
+                            Name_en = "Bahrain"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Country_code = "QA",
+                            Name_ar = "قطر",
+                            Name_en = "Qatar"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Country_code = "OM",
+                            Name_ar = "عمان",
+                            Name_en = "Oman"
+                        });
+                });
+
+            modelBuilder.Entity("To_DoList_AspMVC.Models.Priority", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Priorities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Low"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Medium"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "High"
+                        });
                 });
 
             modelBuilder.Entity("To_DoList_AspMVC.Models.Client", b =>
@@ -161,12 +334,33 @@ namespace To_DoList_AspMVC.Migrations
                         .WithMany("TodoTasks")
                         .HasForeignKey("CategoryId");
 
+                    b.HasOne("To_DoList_AspMVC.Models.Client", "Client")
+                        .WithMany("MyTasks")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("To_DoList_AspMVC.Models.Priority", "Priority")
+                        .WithMany()
+                        .HasForeignKey("PriorityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Priority");
                 });
 
             modelBuilder.Entity("To_DoList_AspMVC.Models.Category", b =>
                 {
                     b.Navigation("TodoTasks");
+                });
+
+            modelBuilder.Entity("To_DoList_AspMVC.Models.Client", b =>
+                {
+                    b.Navigation("MyTasks");
                 });
 
             modelBuilder.Entity("To_DoList_AspMVC.Models.Nationality", b =>

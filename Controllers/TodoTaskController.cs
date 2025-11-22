@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using To_DoList_AspMVC.Data;
+using To_DoList_AspMVC.Filters;
 using To_DoList_AspMVC.Models;
 
 namespace To_DoList_AspMVC.Controllers
 {
+    [SessionAuthorize]
     public class TodoTaskController : Controller
     {
 
@@ -16,13 +18,21 @@ namespace To_DoList_AspMVC.Controllers
             _context = context;
         }
 
+     
+
+
         [HttpGet]
         public IActionResult Index()
         {
             try
             {
 
-                IEnumerable<MyTask> myTasks = _context.TodoTasks.Include(c => c.Category).ToList();
+                IEnumerable<MyTask> myTasks = 
+                    _context.TodoTasks
+                    .Include(c => c.Category)
+                    .Include(c => c.Client)
+                    .Include(c => c.Priority)
+                    .ToList();
                 return View(myTasks);
 
 
@@ -37,9 +47,16 @@ namespace To_DoList_AspMVC.Controllers
 
         private void createList()
         {
-            IEnumerable<Category> dept = _context.Categories.ToList();
-            SelectList selectListItems = new SelectList(dept, "Id", "Name");
-            ViewBag.Departments = selectListItems;
+            IEnumerable<Category> category = _context.Categories.ToList();
+            SelectList selectListItems = new SelectList(category, "Id", "Name");
+            ViewBag.Categories = selectListItems;
+
+            IEnumerable<Client> clients = _context.Clients.ToList();
+            SelectList selectListItems2 = new SelectList(clients, "Id", "Name");
+            ViewBag.Clients = selectListItems2;
+
+            var nati = _context.Priorities.ToList();
+            ViewBag.Priorities = new SelectList(nati, "Id", "Name");
         }
 
 

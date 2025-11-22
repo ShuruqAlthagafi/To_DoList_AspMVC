@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using To_DoList_AspMVC.Filters;
 using To_DoList_AspMVC.Models;
 
 namespace To_DoList_AspMVC.Controllers
 {
+    [SessionAuthorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -12,9 +14,22 @@ namespace To_DoList_AspMVC.Controllers
         {
             _logger = logger;
         }
-
+        private bool IsLoggedIn()
+        {
+            return !string.IsNullOrEmpty(HttpContext.Session.GetString("UserEmail"));
+        }
         public IActionResult Index()
         {
+            //var email = HttpContext.Session.GetString("UserEmail");
+            //if (email == null)
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
+            //if (!IsLoggedIn())
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
+
             return View();
         }
 

@@ -22,11 +22,17 @@ namespace To_DoList_AspMVC.Models
 
         public DateTime? DueDate { get; set; }
 
-        [Range(1, 3)]
-        public int Priority { get; set; }
+
+        public int PriorityId { get; set; }
+
+        public Priority? Priority { get; set; }
 
         [ForeignKey("Category")]
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }
+
+        public int ClientId { get; set; } 
+        public Client? Client { get; set; } 
+
     }
 }

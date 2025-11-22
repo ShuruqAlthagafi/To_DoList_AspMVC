@@ -5,7 +5,7 @@
 
 <h1>Index</h1>
 
-<div  class="container">
+<div  class="container-fluid">
 
     <div class="text-end">
 
@@ -18,34 +18,37 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Client</th>
                 <th>Title</th>
+                <th>Category</th>
                 <th>Description</th>
-                <th>IsCompleted</th>
+                <th>Priority</th>
                 <th>CreatedAt</th>
                 <th>DueDate</th>
-                <th>Priority</th>
-                <th>Category</th>
+                <th>IsCompleted</th>   
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
           
-            @foreach (var TodoTasks in Model)
+            @foreach (var TodoTask in Model)
             {
 
                 <tr>
-                    <td>@TodoTasks.Id</td>
-                    <td>@TodoTasks.Title</td>
-                    <td>@TodoTasks.Description</td>
-                    <td>@(TodoTasks.IsCompleted ? "Yes" : "No")</td>
-                    <td>@TodoTasks.CreatedAt.ToString("g")</td>
-                    <td>@(TodoTasks.DueDate.HasValue? TodoTasks.DueDate.Value.ToString("g") : "N/A")</td>
-                    <td>@TodoTasks.Priority</td>
-                    <td>@TodoTasks.Category.Name</td>
+                    <td>@TodoTask.Id</td>
+                    <td>@TodoTask.Client?.Name</td>
+                    <td>@TodoTask.Title</td>
+                    <td>@TodoTask.Category?.Name</td>
+                    <td>@TodoTask.Description</td>
+                    <td>@TodoTask.Priority.Name</td>
+                    <td>@TodoTask.CreatedAt.ToString("g")</td>
+                    <td>@(TodoTask.DueDate.HasValue? TodoTask.DueDate.Value.ToString("g") : "N/A")</td>
+                    <td>@(TodoTask.IsCompleted ? "Yes" : "No")</td>
+
 
                     <td>
-                        <a asp-action="Edit" asp-route-Id="@TodoTasks.Id" class="btn btn-outline-warning">Edit</a>
-                        <a asp-action="Delete" asp-route-Id="@TodoTasks.Id" class="btn btn-outline-danger">Delete</a>
+                        <a asp-action="Edit" asp-route-Id="@TodoTask.Id" class="btn btn-outline-warning">Edit</a>
+                        <a asp-action="Delete" asp-route-Id="@TodoTask.Id" class="btn btn-outline-danger">Delete</a>
                     </td>
                 </tr>
 

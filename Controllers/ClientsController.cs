@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using To_DoList_AspMVC.Data;
+using To_DoList_AspMVC.Filters;
 using To_DoList_AspMVC.Models;
 
 namespace To_DoList_AspMVC.Controllers
 {
+    [SessionAuthorize]
     public class ClientsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,6 +23,12 @@ namespace To_DoList_AspMVC.Controllers
             return View(clients);
         }
 
+        private void CreateTaskList()
+        {
+            var task = _context.TodoTasks.ToList();
+            ViewBag.MyTasks = new SelectList(task, "Id", "Title");
+        }
+
 
         private void CreateNationalityList()
         {
@@ -28,9 +36,25 @@ namespace To_DoList_AspMVC.Controllers
             ViewBag.Nationalitys = new SelectList(nati, "Id", "Name_en");
         }
 
+
+        public IActionResult TasksForClient(int id)
+        {
+            var client = _context.Clients
+                .Include(c => c.MyTasks)
+                .ThenInclude(t => t.Category) 
+                .FirstOrDefault(c => c.Id == id);
+
+            if (client == null)
+                return NotFound();
+
+            return View(client);
+        }
+
+
         [HttpGet]
         public IActionResult Create()
         {
+            CreateTaskList();
             CreateNationalityList();
             return View();
         }
@@ -40,6 +64,7 @@ namespace To_DoList_AspMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
+                CreateTaskList();
                 CreateNationalityList();
                 return View(client);
             }
@@ -56,6 +81,7 @@ namespace To_DoList_AspMVC.Controllers
         public IActionResult Edit(int Id)
         {
             var clients = _context.Clients.Find(Id);
+            CreateTaskList();
             CreateNationalityList();
             return View(clients);
         }
@@ -68,6 +94,7 @@ namespace To_DoList_AspMVC.Controllers
                 if (!ModelState.IsValid)
                 {
                     CreateNationalityList();
+                    CreateTaskList();
                     return View(clients);
 
                 }
@@ -92,6 +119,7 @@ namespace To_DoList_AspMVC.Controllers
         public IActionResult Delete(int Id)
         {
             var clients = _context.Clients.Find(Id);
+            CreateTaskList();
             CreateNationalityList();
             return View(clients);
         }

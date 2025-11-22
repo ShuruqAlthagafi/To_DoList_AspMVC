@@ -20,6 +20,7 @@ namespace To_DoList_AspMVC.Models
         public Nationality? Nationality { get; set; }
 
 
+        public ICollection<MyTask>? MyTasks { get; set; }
 
 
 
