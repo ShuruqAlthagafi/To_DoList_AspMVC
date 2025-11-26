@@ -29,6 +29,7 @@ namespace To_DoList_AspMVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Category category)
         {
             _context.Categories.Add(category);
@@ -39,14 +40,15 @@ namespace To_DoList_AspMVC.Controllers
 
 
         [HttpGet]
-        public IActionResult Edit(int Id)
+        public IActionResult Edit(string Uid)
         {
-            var category = _context.Categories.Find(Id);
+            var category = _context.Categories.FirstOrDefault(e=>e.Uid == Uid);
             return View(category);
         }
 
         [HttpPost]
-        public IActionResult Edit(Category category)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category category , string Uid)
         {
             try
             {
@@ -56,9 +58,17 @@ namespace To_DoList_AspMVC.Controllers
                     return View(category);
 
                 }
-                _context.Categories.Update(category);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                var cat = _context.Categories.FirstOrDefault(e => e.Uid == Uid);
+                if (cat != null)
+                {
+                    category.Name = cat.Name;
+                    category.Description = cat.Description;
+                    _context.Categories.Update(cat);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+
+                }
+                return View(category);
 
             }
             catch (Exception ex)
@@ -81,6 +91,7 @@ namespace To_DoList_AspMVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(Category category)
         {
             try

@@ -60,6 +60,7 @@ namespace To_DoList_AspMVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Client client)
         {
             if (!ModelState.IsValid)
@@ -78,16 +79,17 @@ namespace To_DoList_AspMVC.Controllers
 
 
         [HttpGet]
-        public IActionResult Edit(int Id)
+        public IActionResult Edit(string Uid)
         {
-            var clients = _context.Clients.Find(Id);
+            var clients = _context.Clients.FirstOrDefault(e=>e.Uid == Uid);
             CreateTaskList();
             CreateNationalityList();
             return View(clients);
         }
 
         [HttpPost]
-        public IActionResult Edit(Client clients)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Client clients , string Uid)
         {
             try
             {
@@ -98,9 +100,17 @@ namespace To_DoList_AspMVC.Controllers
                     return View(clients);
 
                 }
-                _context.Clients.Update(clients);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                var cli = _context.Clients.FirstOrDefault(e => e.Uid == Uid);
+                if (cli == null)
+                {
+
+                    clients.Name = cli.Name;
+                    clients.Email = cli.Email;
+                    _context.Clients.Update(cli);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+               return View(clients);
 
             }
             catch (Exception ex)
@@ -125,6 +135,7 @@ namespace To_DoList_AspMVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(Client clients)
         {
             try

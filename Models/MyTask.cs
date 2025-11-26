@@ -8,7 +8,7 @@ namespace To_DoList_AspMVC.Models
 
         [Key]
         public int Id { get; set; }
-
+        public string Uid { get; set; } = Guid.NewGuid().ToString();
         [Required]
         [MaxLength(100)]
         public string Title { get; set; }

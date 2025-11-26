@@ -68,6 +68,7 @@ namespace To_DoList_AspMVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(MyTask myTasks)
         {
             try
@@ -95,15 +96,16 @@ namespace To_DoList_AspMVC.Controllers
 
 
         [HttpGet]
-        public IActionResult Edit(int Id)
+        public IActionResult Edit(string Uid)
         {
-            var myTasks = _context.TodoTasks.Find(Id);
+            var myTasks = _context.TodoTasks.FirstOrDefault(e=>e.Uid==Uid);
             createList();
             return View(myTasks);
         }
 
         [HttpPost]
-        public IActionResult Edit(MyTask myTasks)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(MyTask myTasks, string Uid)
         {
             try
             {
@@ -113,9 +115,14 @@ namespace To_DoList_AspMVC.Controllers
                     return View(myTasks);
 
                 }
-                _context.TodoTasks.Update(myTasks);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                var Tas = _context.TodoTasks.FirstOrDefault(e => e.Uid == Uid);
+                if (Tas != null)
+                {
+                    _context.TodoTasks.Update(Tas);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+               return View(myTasks);
 
             }
             catch (Exception ex)
@@ -139,6 +146,7 @@ namespace To_DoList_AspMVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(MyTask myTasks)
         {
             try

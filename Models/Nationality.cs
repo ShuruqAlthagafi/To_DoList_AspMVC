@@ -4,6 +4,7 @@
     {
 
         public int Id { get; set; }
+        public string Uid { get; set; } = Guid.NewGuid().ToString();
         public string Name_ar { get; set; }
         public string Name_en { get; set; }
         public string Country_code { get; set; }

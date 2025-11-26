@@ -5,7 +5,7 @@
 <h1>Delete Task</h1>
 
 <form method="post" asp-action="Delete">
-
+    @Html.AntiForgeryToken()
     <div class="mb-3">
         <label asp-for="Title" class="form-label"></label>
         <input asp-for="Title" disabled name="Title" class="form-control" />
