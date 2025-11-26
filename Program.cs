@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using To_DoList_AspMVC.Data;
+using To_DoList_AspMVC.Interfaces;
+using To_DoList_AspMVC.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options => options
 .UseSqlServer(connectionString));
 
+builder.Services.AddScoped(typeof(IRepository<>), typeof(MainRepository<>));
 
 var app = builder.Build();
 
